@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root { 
+  --card: #2B2B41;
+  --foreground: #fff;
+  --primary: #3b82f6;
+  --border: #424258;
+  --gray: #C0C0C0;
+  --green:#21BD5A;
+  --red:#E94560;
+  --yellow: #F59E0B;
+}
+
+@theme inline {  
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-border: var(--border);
+  --color-gray: var(--gray);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-yellow: var(--yellow);
+}
+
+@utility bg-radial {
+  background: radial-gradient(circle at top, #1f1f47, #111);
+}
+
+.container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+body {
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
