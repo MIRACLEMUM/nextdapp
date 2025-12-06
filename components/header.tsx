@@ -1,14 +1,49 @@
  'use client'
  
-import { useEffect } from 'react'
+import { getWalletClient } from '@/lib/viem'
+
 import Button from './Button'
 import ConnectionStatus from './ConnectionStatus'
 import { useWalletContext } from '@/context/WalletProvider'
-import { getWalletClient } from '@/lib/viem'
+import { useEffect, useState } from 'react'
+import { getETHPrice, getNumberOfFunders } from '@/lib/contract'
+
 
 const Header = () => {
+const { walletAddress, isConnected , setWalletAddress,setIsConnected} = useWalletContext();
+const [ethPrice, setEthPrice] =  useState<number | null>(null); 
+const [numberOfFunders, setNumberOfFunders] = useState<number | null>(null);
 
-const { walletAddress, isConnected , setWalletAddress,setIsConnected} = useWalletContext()
+useEffect(() => {
+  const loadETHPrice = async () => {
+    try {
+      const price =await getETHPrice();
+      setEthPrice(Number(price));
+    }catch (error) {
+      console.error("Error fetching ETH price:", error);
+    }
+  };
+
+  loadETHPrice();
+}, []);
+
+useEffect(() => {
+  const loadNumberOfFunders = async () => {
+    try {
+      const numFunders = await getNumberOfFunders();
+      setNumberOfFunders(Number(numFunders));
+    } catch (error) {
+      console.error("Error fetching number of funders:", error);
+    }
+  };
+
+  loadNumberOfFunders();
+}, []);
+
+useEffect(() => {
+  console.log({ ethPrice, numberOfFunders });
+}, [ethPrice, numberOfFunders ]);
+
 
 const handleClick = async () => {
   const walletClient =  getWalletClient();
@@ -19,12 +54,7 @@ const handleClick = async () => {
   setIsConnected(true);
 }
 
-useEffect(() => {
-  console.log({WalletAddress: walletAddress, isConnected});
-}, [walletAddress, isConnected]);
 
-  
-  
 
   return (
     <header className=' bg-card border-b border-border w-full flex-1'>
